@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/cloudfoundry-community/firehose-to-syslog/authclient"
-	"github.com/cloudfoundry-incubator/uaago"
 	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"time"
+
+	"github.com/cloudfoundry-community/firehose-to-syslog/authclient"
+	"github.com/cloudfoundry-incubator/uaago"
 
 	"github.com/cloudfoundry-community/firehose-to-syslog/caching"
 	"github.com/cloudfoundry-community/firehose-to-syslog/eventRouting"
@@ -27,6 +28,9 @@ var (
 	syslogServer      = kingpin.Flag("syslog-server", "Syslog server.").Envar("SYSLOG_ENDPOINT").String()
 	syslogProtocol    = kingpin.Flag("syslog-protocol", "Syslog protocol (tcp/udp/tcp+tls).").Default("tcp").Envar("SYSLOG_PROTOCOL").String()
 	skipSSLSyslog     = kingpin.Flag("skip-ssl-validation-syslog", "Skip Ssl validation for syslog").Default("false").Envar("SKIP_SSL_VALIDATION_SYSLOG").Bool()
+	splunkHost        = kingpin.Flag("splunk-host", "Splunk HTTP event collector host").Envar("SPLUNK_HOST").Required().String()
+	splunkToken       = kingpin.Flag("splunk-token", "Splunk HTTP event collector token").Envar("SPLUNK_TOKEN").Required().String()
+	splunkIndex       = kingpin.Flag("splunk-index", "Splunk index").Envar("SPLUNK_INDEX").Required().String()
 	subscriptionId    = kingpin.Flag("subscription-id", "Id for the subscription.").Default("firehose").Envar("FIREHOSE_SUBSCRIPTION_ID").String()
 	clientID          = kingpin.Flag("client-id", "Client ID.").Envar("FIREHOSE_CLIENT_ID").Required().String()
 	clientSecret      = kingpin.Flag("client-secret", "Client secret.").Envar("FIREHOSE_CLIENT_SECRET").Required().String()
